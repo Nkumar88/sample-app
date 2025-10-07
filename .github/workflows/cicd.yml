@@ -75,6 +75,7 @@ jobs:
           echo "${{ secrets.SSH_KNOWN_HOSTS }}" >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
+
       - name: Deploy via SSH (pull + up)
         uses: appleboy/ssh-action@v1.2.0
         with:
