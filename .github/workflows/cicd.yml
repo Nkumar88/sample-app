@@ -6,7 +6,7 @@ on:
   workflow_dispatch: {}
 
 env:
-  IMAGE_NAME: ghcr.io/nkumar88/benc-uk-nodejs-demoapp
+  IMAGE_NAME: ghcr.io/nkumar88/sample-app
 
 jobs:
   test:
