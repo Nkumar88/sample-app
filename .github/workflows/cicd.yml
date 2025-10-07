@@ -85,6 +85,6 @@ jobs:
             set -euo pipefail
             cd /srv/sample-app
             docker login ghcr.io -u ${{ secrets.GHCR_USERNAME }} -p ${{ secrets.GHCR_TOKEN }}
-            docker compose pull
-            docker compose up -d --remove-orphans
+            docker-compose pull
+            docker-compose up -d --remove-orphans
             docker image prune -f
