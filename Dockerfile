@@ -4,6 +4,6 @@ COPY package*.json ./
 RUN npm install --package-lock-only
 RUN npm ci --omit=dev
 COPY . .
-ENV PORT=3000
+ENV APP_PORT=3000
 EXPOSE 3000
 CMD ["npm", "start"]
