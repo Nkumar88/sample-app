@@ -22,7 +22,7 @@ jobs:
 
   build-and-push:
     needs: test
-    runs-on: self-hosted
+    runs-on: latest-ubuntu
     permissions:
       contents: read
       packages: write
