@@ -45,13 +45,13 @@ jobs:
             type=raw,value=latest
             type=sha
 
-      - name: Build and push
-        uses: docker/build-push-action@v6
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+      #- name: Build and push
+      #  uses: docker/build-push-action@v6
+      #  with:
+      #    context: .
+      #    push: true
+      #    tags: ${{ steps.meta.outputs.tags }}
+      #    labels: ${{ steps.meta.outputs.labels }}
 
   deploy:
     needs: build-and-push
