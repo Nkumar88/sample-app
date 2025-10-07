@@ -21,19 +21,31 @@ jobs:
       - run: npm test
 
   build-and-push:
-    needs: test
-    runs-on: latest-ubuntu
+    runs-on: ubuntu-latest
     permissions:
       contents: read
       packages: write
     steps:
       - uses: actions/checkout@v4
+
+      # Optional but recommended for cross-arch emulation
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
       - name: Set up Buildx
         uses: docker/setup-buildx-action@v3
         with:
           install: true            # makes `docker buildx` the default builder
           driver-opts: network=host
-      - name: Extract Docker metadata (tags/labels)
+
+      - name: Log in to GHCR
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ secrets.GHCR_USERNAME }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      - name: Extract Docker metadata
         id: meta
         uses: docker/metadata-action@v5
         with:
@@ -42,8 +54,7 @@ jobs:
             type=raw,value=latest
             type=sha
 
-
-      - name: Build and push
+      - name: Build and push (multi-arch)
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -51,6 +62,15 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64
+          # Uncomment if your target engine/compose is older:
+          # provenance: false
+          # sbom: false
+
+      - name: Show builder info (debug)
+        run: |
+          docker buildx version
+          docker buildx ls
+  
 
   deploy:
     needs: build-and-push
